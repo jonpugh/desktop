@@ -1,0 +1,32 @@
+---
+#
+# Jon Pugh's Ubuntu Desktop setup.
+#
+# Just run with ansible-playbook play.yml
+#
+- hosts: localhost
+  become: yes
+  vars:
+        jon_snaps: 
+                - inkscape
+
+        jon_snaps_classic:
+                - phpstorm
+                - slack
+                - chromium
+        jon_apts:
+                - docker.io
+
+
+  tasks:
+          - name: Install Apt Packages
+            package:
+                name: "{{ jon_apts }}"
+                state: present
+
+
+          - name: Install Classic Snap Packages
+            snap:
+                name: "{{ jon_snaps_classic }}"
+                classic: yes
+
