@@ -7,26 +7,63 @@
 - hosts: localhost
   become: yes
   vars:
-        jon_snaps: 
-                - inkscape
+    jon_snaps:
+      - inkscape
 
-        jon_snaps_classic:
-                - phpstorm
-                - slack
-                - chromium
-        jon_apts:
-                - docker.io
+    jon_snaps_classic:
+      - phpstorm
+      - slack
+      - chromium
 
+    jon_apts:
+      - docker.io
+      - fish
+
+    jon_fonts:
+      - https://github.com/abertsch/Menlo-for-Powerline/raw/master/Menlo%20Bold%20Italic%20for%20Powerline.ttf
+      - https://github.com/abertsch/Menlo-for-Powerline/raw/master/Menlo%20Bold%20for%20Powerline.ttf
+      - https://github.com/abertsch/Menlo-for-Powerline/raw/master/Menlo%20Italic%20for%20Powerline.ttf
+      - https://github.com/abertsch/Menlo-for-Powerline/raw/master/Menlo%20for%20Powerline.ttf
 
   tasks:
-          - name: Install Apt Packages
-            package:
-                name: "{{ jon_apts }}"
-                state: present
+    - name: Install Apt Packages
+      package:
+        name: "{{ jon_apts }}"
+        state: present
 
 
-          - name: Install Classic Snap Packages
-            snap:
-                name: "{{ jon_snaps_classic }}"
-                classic: yes
+    - name: Install Classic Snap Packages
+      snap:
+        name: "{{ jon_snaps_classic }}"
+        classic: yes
 
+    - name: Make Terminal Snazzy
+      # https://gist.github.com/jmolivas/df86020c41efb986b29b
+      become: no
+      block:
+        - name: Download OMF
+          get_url:
+            url: https://github.com/oh-my-fish/oh-my-fish/raw/master/bin/install
+            dest: /tmp/omf-install
+
+        - name: Install OMF
+          shell: fish /tmp/omf-install
+          ignore_errors: yes
+
+        # DOES NOT WORK: omf is not found after first run.
+        # - name: Install Agnoster Theme
+        #  shell: omf install agnoster
+
+        - name: Create font directory.
+          file:
+            dest: ~/.fonts
+            state: directory
+
+        - name: Install Fonts
+          get_url:
+            url: "{{ item }}"
+            dest: ~/.fonts
+          with_items: "{{ jon_fonts }}"
+
+        - name: Reload font cache
+          command: fc-cache -vf ~/.fonts
