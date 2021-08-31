@@ -17,6 +17,7 @@
 
     jon_apts:
       - docker.io
+      - docker-compose
       - fish
 
     jon_fonts:
