@@ -12,6 +12,7 @@
 
     jon_snaps_classic:
       - phpstorm
+      - pycharm-community
       - slack
       - chromium
 
