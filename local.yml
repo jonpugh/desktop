@@ -55,10 +55,10 @@
           get_url:
             url: https://github.com/oh-my-fish/oh-my-fish/raw/master/bin/install
             dest: /tmp/omf-install
-
-        - name: Install OMF
-          shell: fish /tmp/omf-install
-          ignore_errors: yes
+#
+#        - name: Install OMF
+#          shell: fish /tmp/omf-install
+#          ignore_errors: yes
 
         # DOES NOT WORK: omf is not found after first run.
         # - name: Install Agnoster Theme
