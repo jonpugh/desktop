@@ -27,6 +27,14 @@
       - https://github.com/abertsch/Menlo-for-Powerline/raw/master/Menlo%20Italic%20for%20Powerline.ttf
       - https://github.com/abertsch/Menlo-for-Powerline/raw/master/Menlo%20for%20Powerline.ttf
 
+    php_version: "8.1"
+
+  roles:
+
+    - role: geerlingguy.php-versions
+    - role: geerlingguy.php
+    - role: geerlingguy.composer
+
   tasks:
     - name: Install Apt Packages
       package:
